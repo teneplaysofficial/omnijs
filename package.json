@@ -1,0 +1,37 @@
+{
+  "name": "omnijs",
+  "displayName": "OmniJS",
+  "version": "0.0.0",
+  "description": "Essential Utilities for Smarter JavaScript Development",
+  "private": true,
+  "author": "Sriman",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "packageManager": "pnpm@10.14.0",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "turbo run build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "publish": "changeset publish",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier  --ignore-path .gitignore --write"
+  },
+  "lint-staged": {
+    "*.{js,ts,json,md,yml,css}": "pnpm format"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.6",
+    "@types/node": "^24.3.0",
+    "eslint": "^9.33.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "prettier": "^3.6.2",
+    "tsup": "^8.5.0",
+    "turbo": "^2.5.6",
+    "typescript": "^5.9.2"
+  }
+}
