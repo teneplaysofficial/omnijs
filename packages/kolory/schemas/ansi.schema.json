@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "./ansi.schema.json",
+  "title": "ANSI Escape Codes Map",
+  "description": "Schema for ANSI escape code definitions categorized by type",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "patternProperties": {
+    "^[a-zA-Z][a-zA-Z0-9]*$": {
+      "type": "string",
+      "pattern": "^\\u001b\\[[0-9;]{1,50}m$",
+      "additionalProperties": false,
+      "minProperties": 1
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "bold": "\u001b[1m",
+      "red": "\u001b[31m",
+      "boldRed": "\u001b[1;31m",
+      "reset": "\u001b[0m",
+      "bgTrueColor": "\u001b[48;2;0;128;255m",
+      "fg256": "\u001b[38;5;202m"
+    }
+  ]
+}

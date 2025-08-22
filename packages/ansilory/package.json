@@ -1,0 +1,61 @@
+{
+  "name": "ansilory",
+  "version": "1.0.0",
+  "description": "Terminal styling made beautiful",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teneplaysofficial/omnijs.git",
+    "directory": "packages/ansilory"
+  },
+  "bugs": "https://github.com/teneplaysofficial/omnijs/issues",
+  "author": "Sriman <136729116+TenEplaysOfficial@users.noreply.github.com>",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/teneplaysofficial"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "keywords": [
+    "ansi",
+    "ansi-colors",
+    "ansi-styles",
+    "terminal",
+    "cli",
+    "text-style",
+    "chalk",
+    "kolory",
+    "color",
+    "terminal-color",
+    "console",
+    "text-formatting",
+    "ansi-escape-codes",
+    "rgb",
+    "256-colors",
+    "24bit",
+    "chainable",
+    "styling",
+    "terminal-styling",
+    "output"
+  ],
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "dependencies": {
+    "kolory": "workspace:*"
+  },
+  "devDependencies": {}
+}
