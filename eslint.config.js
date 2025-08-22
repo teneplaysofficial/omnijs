@@ -5,8 +5,13 @@ import json from '@eslint/json';
 import markdown from '@eslint/markdown';
 import css from '@eslint/css';
 import { defineConfig } from 'eslint/config';
+import { includeIgnoreFile } from '@eslint/compat';
+import url from 'url';
+
+const gitignorePath = url.fileURLToPath(new URL('.gitignore', import.meta.url));
 
 export default defineConfig([
+  includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
     plugins: { js },

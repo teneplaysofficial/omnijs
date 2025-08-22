@@ -1,12 +1,21 @@
 {
-  "name": "kolory",
-  "displayName": "Kolory",
-  "version": "1.1.0",
-  "description": "A lightweight, versatile JavaScript library for manipulating and exploring colors in web projects, supporting conversions, palette generation, and dynamic effects.",
+  "name": "@tenedev/git-log",
+  "displayName": "Git Log",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [
+    "git",
+    "log",
+    "history",
+    "commit",
+    "json",
+    "csv",
+    "markdown"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/teneplaysofficial/omnijs.git",
-    "directory": "packages/kolory"
+    "directory": "packages/git-log"
   },
   "bugs": "https://github.com/teneplaysofficial/omnijs/issues",
   "author": "Sriman <136729116+TenEplaysOfficial@users.noreply.github.com>",
@@ -15,33 +24,15 @@
     "url": "https://github.com/sponsors/teneplaysofficial"
   },
   "license": "Apache-2.0",
-  "private": false,
-  "keywords": [
-    "color",
-    "palette",
-    "color-manipulation",
-    "color-utils",
-    "color-conversion",
-    "hue",
-    "rgb",
-    "hex",
-    "hsl",
-    "design",
-    "frontend",
-    "utility",
-    "creative",
-    "web-development",
-    "ui-colors",
-    "javascript",
-    "typescript"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist"
   ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "browser": "./dist/index.global.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
