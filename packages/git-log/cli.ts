@@ -2,7 +2,7 @@ import { writeFileSync } from 'fs';
 import { basename } from 'path';
 import getGitLog, {
   FormatOptions,
-  getLatestTag,
+  getDefaultRange,
   GitField,
   LogOptions,
 } from './index.js';
@@ -14,8 +14,7 @@ function printHelp() {
 Usage: npx @tenedev/git-log [options]
 
 Options:
-  --fields <fields>        Comma-separated fields to include (hash, shortHash, author, email, date, subject, body)
-                           Default: hash,shortHash,author,email,date,subject,body
+  --fields <fields>        Comma-separated fields to include (hash, shortHash, author, email, date, subject, body, formattedDate)
   --limit <number>         Limit number of commits
   --range <range>          Git range ('all' or 'from..to')
                            Default: latest_tag..HEAD
@@ -38,14 +37,12 @@ Options:
   process.exit(0);
 }
 
-if (args.includes('--help')) {
-  printHelp();
-}
+if (args.includes('--help')) printHelp();
 
 const options: LogOptions & FormatOptions = {
   fields: ['hash', 'shortHash', 'author', 'email', 'date', 'subject', 'body'],
   style: 'json',
-  range: { from: getLatestTag(), to: 'HEAD' },
+  range: getDefaultRange(),
   delimiter: ',',
   mdStyle: 'block',
   pretty: true,
@@ -53,17 +50,16 @@ const options: LogOptions & FormatOptions = {
   since: undefined,
   until: undefined,
   author: undefined,
+  branch: 'all',
 };
 
 let outputFile = '';
 
 for (let i = 0; i < args.length; i++) {
   switch (args[i]) {
-    case '--fields': {
-      const fields = args[++i]?.split(',') ?? [];
-      options.fields = fields as GitField[];
+    case '--fields':
+      options.fields = (args[++i]?.split(',') ?? []) as GitField[];
       break;
-    }
     case '--limit':
       options.limit = parseInt(args[++i] ?? '0', 10) || null;
       break;
@@ -110,29 +106,27 @@ for (let i = 0; i < args.length; i++) {
   }
 }
 
-// Validate fields
 const validFields: GitField[] = [
   'hash',
   'shortHash',
   'author',
   'email',
   'date',
-  'subject',
   'formattedDate',
+  'subject',
   'body',
 ];
+
 if (options.fields?.some((f) => !validFields.includes(f))) {
   console.error('Error: Invalid field specified. Use --help for valid fields.');
   process.exit(1);
 }
 
-// Validate style
 if (options.style && !['json', 'csv', 'md'].includes(options.style)) {
   console.error('Error: Invalid style. Use json, csv, or md.');
   process.exit(1);
 }
 
-// Validate mdStyle
 if (
   options.style === 'md' &&
   options.mdStyle &&
@@ -142,7 +136,6 @@ if (
   process.exit(1);
 }
 
-// Validate delimiter
 if (
   options.style === 'csv' &&
   options.delimiter &&
@@ -152,7 +145,6 @@ if (
   process.exit(1);
 }
 
-// Generate default filename if not provided
 if (!outputFile) {
   const dirName = basename(process.cwd());
   const extension =
@@ -160,7 +152,6 @@ if (!outputFile) {
   outputFile = `git-log-${dirName}.${extension}`;
 }
 
-// Run getGitLog and save output
 try {
   const result = getGitLog(options);
   if (Array.isArray(result)) {
@@ -170,10 +161,9 @@ try {
     console.log(`Output saved to ${outputFile}`);
   }
 } catch (error) {
-  if (error instanceof Error) {
-    console.error('Error generating git log:', error.message);
-  } else {
-    console.error('Error generating git log:', String(error));
-  }
+  console.error(
+    'Error generating git log:',
+    error instanceof Error ? error.message : String(error),
+  );
   process.exit(1);
 }

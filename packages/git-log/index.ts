@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 
 /**
- *
+ * Mapping of available Git log field names to their corresponding `git log --pretty=format` placeholders.
  */
 enum FieldData {
   hash = '%H',
@@ -14,7 +14,7 @@ enum FieldData {
 }
 
 /**
- * available fields
+ * Supported Git log fields
  */
 export type GitField =
   /**
@@ -62,7 +62,7 @@ export type GitField =
   | 'formattedDate';
 
 /**
- *
+ * Options for retrieving Git logs
  */
 export interface LogOptions {
   /**
@@ -93,7 +93,7 @@ export interface LogOptions {
          *
          * @default "latest tag"
          */
-        from: string;
+        from: string | null;
         /**
          * tag or commit hash
          *
@@ -133,7 +133,7 @@ export interface LogOptions {
 }
 
 /**
- *
+ * Options for formatting Git log output
  */
 export interface FormatOptions {
   /**
@@ -163,13 +163,13 @@ export interface FormatOptions {
 }
 
 /**
+ * Run a shell command and return trimmed output
  *
- * @returns
+ * @returns stdout of the command, empty string if it fails
  */
 function runCommand(
   /**
-   * Command value
-   *
+   * Command to run
    */
   cmd: string,
 ): string {
@@ -181,20 +181,43 @@ function runCommand(
 }
 
 /**
- * Get latest git tag
+ * Get the latest Git tag (lightweight or annotated).
  *
- * @returns latest tag or empty string if no tags
+ * @returns latest tag string, or empty string if none found
  */
 export function getLatestTag(): string {
   return runCommand('git describe --tags --abbrev=0');
 }
 
 /**
+ * Get the default range for logs.
+ * Falls back to `"all"` if no tags exist.
  *
- * @returns
+ * @returns a range object `{from: latestTag, to: 'HEAD'}` or `'all'`
+ */
+export function getDefaultRange():
+  | 'all'
+  | {
+      from: string;
+      to: string;
+    } {
+  const latestTag = getLatestTag();
+  return latestTag ? { from: latestTag, to: 'HEAD' } : 'all';
+}
+
+/**
+ * Format a date string according to a custom format.
+ *
+ * @returns formatted string, or original input if parsing fails
  */
 export function formatDateString(
+  /**
+   * ISO-like string or git date string
+   */
   date: string,
+  /**
+   * Desired format ("YYYY-MM-DD", "DD-MM-YYYY", "MM-DD-YYYY")
+   */
   format: string | undefined,
 ): string {
   const d = new Date(date);
@@ -215,10 +238,14 @@ export function formatDateString(
 }
 
 /**
+ * Get Git log data with formatting support.
  *
- * @returns
+ * @returns string (JSON, CSV, or Markdown) or `[]` if no commits found
  */
 export default function getGitLog(
+  /**
+   * Configuration for fields, filters, and output formatting
+   */
   options: LogOptions & FormatOptions = {
     fields: [
       'hash',
@@ -226,15 +253,12 @@ export default function getGitLog(
       'author',
       'email',
       'date',
+      'formattedDate',
       'subject',
       'body',
-      'formattedDate',
     ],
     style: 'json',
-    range: {
-      from: getLatestTag(),
-      to: 'HEAD',
-    },
+    range: getDefaultRange(),
     delimiter: ',',
     mdStyle: 'block',
     pretty: true,
@@ -257,7 +281,7 @@ export default function getGitLog(
 
   let cmd = `git log --pretty=format:"${format}"`;
 
-  if (range) cmd += range;
+  if (range && range !== 'all') cmd += ` ${range}`;
   if (options.limit) cmd += ` -n ${options.limit}`;
   if (options.since) cmd += ` --since="${options.since}"`;
   if (options.until) cmd += ` --until="${options.until}"`;
@@ -298,11 +322,11 @@ export default function getGitLog(
 
   if (options.style === 'csv') {
     const header = options.fields?.join(options.delimiter);
-    const rows = lines.map((line) => {
+    const rows = lines.map((line) =>
       options.fields
         ?.map((f) => JSON.stringify(line[f] || ''))
-        .join(options.delimiter || '');
-    });
+        .join(options.delimiter || ','),
+    );
 
     return [header, ...rows].join('\n');
   }
