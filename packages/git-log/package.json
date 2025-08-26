@@ -1,7 +1,7 @@
 {
   "name": "@tenedev/git-log",
   "displayName": "Git Log",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Parse and format git commit history with ease supporting filters for tags dates authors and ranges",
   "private": false,
   "keywords": [
