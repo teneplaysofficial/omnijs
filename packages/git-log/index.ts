@@ -1,0 +1,333 @@
+import { execSync } from 'child_process';
+
+/**
+ *
+ */
+enum FieldData {
+  hash = '%H',
+  shortHash = '%h',
+  author = '%an',
+  email = '%ae',
+  date = '%ad',
+  subject = '%s',
+  body = '%b',
+}
+
+/**
+ * available fields
+ */
+export type GitField =
+  /**
+   * full commit hash (40 chars)
+   *
+   * @example "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0"
+   */
+  | 'hash'
+  /**
+   * short commit hash (7 chars)
+   *
+   * @example "a1b2c3d"
+   */
+  | 'shortHash'
+  /**
+   * author name
+   * @example "John Doe"
+   */
+  | 'author'
+  /**
+   * author email
+   */
+  | 'email'
+  /**
+   * commit date
+   *
+   * @example "2023-10-05 14:48:00 +0200"
+   */
+  | 'date'
+  /**
+   * commit subject (first line)
+   *
+   * @example "fix: correct minor typos in code"
+   */
+  | 'subject'
+  /**
+   * commit body (everything except first line)
+   *
+   * @example "see the issue for details"
+   */
+  | 'body'
+  /**
+   * formatted date
+   */
+  | 'formattedDate';
+
+/**
+ *
+ */
+export interface LogOptions {
+  /**
+   * fields to include in the output
+   *
+   * @default ['hash', 'shortHash', 'author', 'email', 'date', 'subject', 'body']
+   *
+   * @example ['hash', 'author', 'date', 'subject']
+   */
+  fields?: GitField[];
+  /**
+   * number of data items to return
+   *
+   * @default null (all)
+   */
+  limit?: number | null;
+  range: /**
+   * no tag base, full history
+   */
+  | 'all'
+    /**
+     * tag or commit base range
+     *
+     */
+    | {
+        /**
+         * tag or commit hash
+         *
+         * @default "latest tag"
+         */
+        from: string;
+        /**
+         * tag or commit hash
+         *
+         * @default "HEAD"
+         */
+        to?: string;
+      };
+  /**
+   * filter commits since this date (inclusive)
+   * @example "2024-01-01"
+   */
+  since?: string;
+
+  /**
+   * filter commits until this date (inclusive)
+   * @example "2024-12-31"
+   */
+  until?: string;
+  /**
+   * filter commits by author name or email
+   */
+  author?: string;
+  /**
+   * custom date format for `formatDate` field
+   *
+   * @default "YYYY-MM-DD"
+   */
+  dateFormat?: 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY';
+  /**
+   * branch to get logs from
+   *
+   * @default "all"
+   *
+   * @example "main" | "develop" | "feature/foo"
+   */
+  branch?: string;
+}
+
+/**
+ *
+ */
+export interface FormatOptions {
+  /**
+   * output style
+   *
+   * @default "json"
+   */
+  style?: 'json' | 'csv' | 'md';
+  /**
+   * delimiter for csv style
+   *
+   * @default ","
+   */
+  delimiter?: ',' | ';';
+  /**
+   * markdown style
+   *
+   * @default "block"
+   */
+  mdStyle?: 'block' | 'table' | 'list';
+  /**
+   * pretty print json output
+   *
+   * @default true
+   */
+  pretty?: boolean;
+}
+
+/**
+ *
+ * @returns
+ */
+function runCommand(
+  /**
+   * Command value
+   *
+   */
+  cmd: string,
+): string {
+  try {
+    return execSync(cmd).toString().trim();
+  } catch {
+    return '';
+  }
+}
+
+/**
+ * Get latest git tag
+ *
+ * @returns latest tag or empty string if no tags
+ */
+export function getLatestTag(): string {
+  return runCommand('git describe --tags --abbrev=0');
+}
+
+/**
+ *
+ * @returns
+ */
+export function formatDateString(
+  date: string,
+  format: string | undefined,
+): string {
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return date;
+
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+
+  switch (format) {
+    case 'DD-MM-YYYY':
+      return `${dd}-${mm}-${yyyy}`;
+    case 'MM-DD-YYYY':
+      return `${mm}-${dd}-${yyyy}`;
+    default:
+      return `${yyyy}-${mm}-${dd}`;
+  }
+}
+
+/**
+ *
+ * @returns
+ */
+export default function getGitLog(
+  options: LogOptions & FormatOptions = {
+    fields: [
+      'hash',
+      'shortHash',
+      'author',
+      'email',
+      'date',
+      'subject',
+      'body',
+      'formattedDate',
+    ],
+    style: 'json',
+    range: {
+      from: getLatestTag(),
+      to: 'HEAD',
+    },
+    delimiter: ',',
+    mdStyle: 'block',
+    pretty: true,
+    limit: null,
+    dateFormat: 'YYYY-MM-DD',
+    branch: 'all',
+  },
+): string | never[] | undefined {
+  let range = '';
+
+  if (options.range === 'all') {
+    range = '';
+  } else if (options.range.from && options.range.to) {
+    range = `${options.range.from}..${options.range.to}`;
+  }
+
+  const separator = '␞'; // ASCII Record Separator
+  const rawFields = options.fields?.filter((f) => f !== 'formattedDate');
+  const format = rawFields?.map((f) => FieldData[f]).join(separator);
+
+  let cmd = `git log --pretty=format:"${format}"`;
+
+  if (range) cmd += range;
+  if (options.limit) cmd += ` -n ${options.limit}`;
+  if (options.since) cmd += ` --since="${options.since}"`;
+  if (options.until) cmd += ` --until="${options.until}"`;
+  if (options.author) cmd += ` --author="${options.author}"`;
+  if (options.branch && options.branch !== 'all') {
+    cmd += ` ${options.branch}`;
+  }
+
+  const raw = runCommand(cmd);
+
+  if (!raw) return [];
+
+  const lines = raw.split('\n').map((line) => {
+    const part: string[] = line.split(separator);
+    const entry: Record<string, string> = {};
+
+    rawFields?.forEach((field, index) => {
+      entry[field] = part[index] || '';
+    });
+
+    if (options.fields?.includes('formattedDate')) {
+      entry['formattedDate'] = formatDateString(
+        entry['date'],
+        options?.dateFormat,
+      );
+    }
+
+    return entry;
+  });
+
+  if (options.style === 'json') {
+    if (options.pretty) {
+      return JSON.stringify(lines, null, 2);
+    } else {
+      return JSON.stringify(lines);
+    }
+  }
+
+  if (options.style === 'csv') {
+    const header = options.fields?.join(options.delimiter);
+    const rows = lines.map((line) => {
+      options.fields
+        ?.map((f) => JSON.stringify(line[f] || ''))
+        .join(options.delimiter || '');
+    });
+
+    return [header, ...rows].join('\n');
+  }
+
+  if (options.style === 'md') {
+    if (options.mdStyle === 'table') {
+      const header = `| ${options.fields?.join(' | ')} |`;
+      const divider = `| ${options.fields?.map(() => '---').join(' | ')} |`;
+      const rows = lines.map(
+        (c) => `| ${options.fields?.map((f) => c[f] || '').join(' | ')} |`,
+      );
+      return [header, divider, ...rows].join('\n');
+    }
+
+    if (options.mdStyle === 'list') {
+      return lines
+        .map(
+          (c) =>
+            `- ${options.fields?.map((f) => `**${f}**: ${c[f]}`).join(', ')}`,
+        )
+        .join('\n');
+    }
+
+    return lines
+      .map((c) => options.fields?.map((f) => `**${f}**: ${c[f]}`).join('\n'))
+      .join('\n\n');
+  }
+}

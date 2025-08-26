@@ -2,7 +2,8 @@
   "name": "@tenedev/git-log",
   "displayName": "Git Log",
   "version": "0.0.0",
-  "description": "",
+  "description": "Parse and format git commit history with ease supporting filters for tags dates authors and ranges",
+  "private": false,
   "keywords": [
     "git",
     "log",
@@ -45,6 +46,9 @@
         "default": "./dist/index.cjs"
       }
     }
+  },
+  "bin": {
+    "@tenedev/git-log": "./dist/cli.cjs"
   },
   "scripts": {
     "build": "tsup"
