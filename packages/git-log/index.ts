@@ -313,11 +313,9 @@ export default function getGitLog(
   });
 
   if (options.style === 'json') {
-    if (options.pretty) {
-      return JSON.stringify(lines, null, 2);
-    } else {
-      return JSON.stringify(lines);
-    }
+    return options.pretty
+      ? JSON.stringify(lines, null, 2)
+      : JSON.stringify(lines);
   }
 
   if (options.style === 'csv') {
