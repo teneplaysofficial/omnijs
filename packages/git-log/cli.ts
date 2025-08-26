@@ -19,6 +19,7 @@ Options:
   --range <range>          Git range ('all' or 'from..to')
                            Default: latest_tag..HEAD
   --branch <name>          Branch to read logs from (default: all branches)
+  --date-format <format>   Custom date format (e.g., "YYYY-MM-DD")
   --since <date>           Filter commits since date (e.g., "2024-01-01")
   --until <date>           Filter commits until date (e.g., "2024-12-31")
   --author <name|email>    Filter commits by author
@@ -40,7 +41,16 @@ Options:
 if (args.includes('--help')) printHelp();
 
 const options: LogOptions & FormatOptions = {
-  fields: ['hash', 'shortHash', 'author', 'email', 'date', 'subject', 'body'],
+  fields: [
+    'hash',
+    'shortHash',
+    'author',
+    'email',
+    'date',
+    'subject',
+    'body',
+    'formattedDate',
+  ],
   style: 'json',
   range: getDefaultRange(),
   delimiter: ',',
@@ -51,6 +61,7 @@ const options: LogOptions & FormatOptions = {
   until: undefined,
   author: undefined,
   branch: 'all',
+  dateFormat: 'YYYY-MM-DD',
 };
 
 let outputFile = '';
@@ -103,67 +114,89 @@ for (let i = 0; i < args.length; i++) {
     case '--branch':
       options.branch = args[++i] ?? 'all';
       break;
+    case '--date-format': {
+      const format = args[++i];
+      if (
+        format === 'YYYY-MM-DD' ||
+        format === 'DD-MM-YYYY' ||
+        format === 'MM-DD-YYYY'
+      ) {
+        options.dateFormat = format;
+      } else {
+        console.error(
+          'Error: Invalid dateFormat. Use "YYYY-MM-DD", "DD-MM-YYYY", or "MM-DD-YYYY".',
+        );
+        process.exit(1);
+      }
+      break;
+    }
   }
-}
 
-const validFields: GitField[] = [
-  'hash',
-  'shortHash',
-  'author',
-  'email',
-  'date',
-  'formattedDate',
-  'subject',
-  'body',
-];
+  const validFields: GitField[] = [
+    'hash',
+    'shortHash',
+    'author',
+    'email',
+    'date',
+    'formattedDate',
+    'subject',
+    'body',
+  ];
 
-if (options.fields?.some((f) => !validFields.includes(f))) {
-  console.error('Error: Invalid field specified. Use --help for valid fields.');
-  process.exit(1);
-}
-
-if (options.style && !['json', 'csv', 'md'].includes(options.style)) {
-  console.error('Error: Invalid style. Use json, csv, or md.');
-  process.exit(1);
-}
-
-if (
-  options.style === 'md' &&
-  options.mdStyle &&
-  !['block', 'table', 'list'].includes(options.mdStyle)
-) {
-  console.error('Error: Invalid mdStyle. Use block, table, or list.');
-  process.exit(1);
-}
-
-if (
-  options.style === 'csv' &&
-  options.delimiter &&
-  !([',', ';'] as string[]).includes(options.delimiter)
-) {
-  console.error('Error: Invalid delimiter. Use , or ;.');
-  process.exit(1);
-}
-
-if (!outputFile) {
-  const dirName = basename(process.cwd());
-  const extension =
-    options.style === 'json' ? 'json' : options.style === 'csv' ? 'csv' : 'md';
-  outputFile = `git-log-${dirName}.${extension}`;
-}
-
-try {
-  const result = getGitLog(options);
-  if (Array.isArray(result)) {
-    console.log('No git log data to output.');
-  } else {
-    writeFileSync(outputFile, result ?? '');
-    console.log(`Output saved to ${outputFile}`);
+  if (options.fields?.some((f) => !validFields.includes(f))) {
+    console.error(
+      'Error: Invalid field specified. Use --help for valid fields.',
+    );
+    process.exit(1);
   }
-} catch (error) {
-  console.error(
-    'Error generating git log:',
-    error instanceof Error ? error.message : String(error),
-  );
-  process.exit(1);
+
+  if (options.style && !['json', 'csv', 'md'].includes(options.style)) {
+    console.error('Error: Invalid style. Use json, csv, or md.');
+    process.exit(1);
+  }
+
+  if (
+    options.style === 'md' &&
+    options.mdStyle &&
+    !['block', 'table', 'list'].includes(options.mdStyle)
+  ) {
+    console.error('Error: Invalid mdStyle. Use block, table, or list.');
+    process.exit(1);
+  }
+
+  if (
+    options.style === 'csv' &&
+    options.delimiter &&
+    !([',', ';'] as string[]).includes(options.delimiter)
+  ) {
+    console.error('Error: Invalid delimiter. Use , or ;.');
+    process.exit(1);
+  }
+
+  if (!outputFile) {
+    const dirName = basename(process.cwd());
+    const extension =
+      options.style === 'json'
+        ? 'json'
+        : options.style === 'csv'
+          ? 'csv'
+          : 'md';
+    outputFile = `git-log-${dirName}.${extension}`;
+  }
+
+  try {
+    const result = getGitLog(options);
+    if (Array.isArray(result)) {
+      console.log('No git log data to output.');
+    } else {
+      writeFileSync(outputFile, result ?? '');
+      console.log(`Output saved to ${outputFile}`);
+    }
+  } catch (error) {
+    console.error(
+      'Error generating git log:',
+      error instanceof Error ? error.message : String(error),
+    );
+    process.exit(1);
+  }
 }

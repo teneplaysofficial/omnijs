@@ -8,7 +8,7 @@ enum FieldData {
   shortHash = '%h',
   author = '%an',
   email = '%ae',
-  date = '%ad',
+  date = '%aI',
   subject = '%s',
   body = '%b',
 }
@@ -39,7 +39,7 @@ export type GitField =
    */
   | 'email'
   /**
-   * commit date
+   * commit date (ISO 8601)
    *
    * @example "2023-10-05 14:48:00 +0200"
    */
@@ -117,12 +117,6 @@ export interface LogOptions {
    */
   author?: string;
   /**
-   * custom date format for `formatDate` field
-   *
-   * @default "YYYY-MM-DD"
-   */
-  dateFormat?: 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY';
-  /**
    * branch to get logs from
    *
    * @default "all"
@@ -160,6 +154,12 @@ export interface FormatOptions {
    * @default true
    */
   pretty?: boolean;
+  /**
+   * custom date format for `formatDate` field
+   *
+   * @default "YYYY-MM-DD"
+   */
+  dateFormat?: 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY';
 }
 
 /**
@@ -172,9 +172,21 @@ function runCommand(
    * Command to run
    */
   cmd: string,
+  /**
+   * suppressErrorOutput If true, hide stderr messages
+   *
+   * @default false
+   */
+  suppressErrorOutput = false,
 ): string {
   try {
-    return execSync(cmd).toString().trim();
+    return execSync(cmd, {
+      stdio: suppressErrorOutput
+        ? ['pipe', 'pipe', 'ignore']
+        : ['pipe', 'pipe', 'pipe'],
+    })
+      .toString()
+      .trim();
   } catch {
     return '';
   }
@@ -186,7 +198,7 @@ function runCommand(
  * @returns latest tag string, or empty string if none found
  */
 export function getLatestTag(): string {
-  return runCommand('git describe --tags --abbrev=0');
+  return runCommand('git describe --tags --abbrev=0', true);
 }
 
 /**
