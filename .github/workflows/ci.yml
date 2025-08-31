@@ -7,6 +7,7 @@ on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   pr_title_check:
