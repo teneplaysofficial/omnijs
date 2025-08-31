@@ -14,7 +14,7 @@ type Formats = {
   };
 };
 
-type Ansi = {
+export type Ansi = {
   [K in AnsiKey]: Ansi;
 } & {
   (text: string): void;
