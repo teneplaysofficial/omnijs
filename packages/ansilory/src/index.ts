@@ -1,6 +1,10 @@
-import { ansi } from 'kolory';
+import { ansi as ansiCodes, Ansi } from 'kolory';
 
-const o = ansi;
+/**
+ * @deprecated Use `ansi` instead
+ */
+export const o: Ansi = ansiCodes;
 
-export { o };
-export default o;
+export const ansi: Ansi = ansiCodes;
+
+export default ansi;
