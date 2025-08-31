@@ -1,7 +1,7 @@
 {
   "name": "kolory",
   "displayName": "Kolory",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A lightweight, versatile JavaScript library for manipulating and exploring colors in web projects, supporting conversions, palette generation, and dynamic effects.",
   "repository": {
     "type": "git",
