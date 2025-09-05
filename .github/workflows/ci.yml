@@ -40,3 +40,6 @@ jobs:
 
       - name: Run tests
         run: pnpm test
+
+      - name: Validate jsr dry-run
+        run: node scripts/jsr.js --dry-run

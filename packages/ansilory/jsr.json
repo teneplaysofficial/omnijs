@@ -1,0 +1,11 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@tene/ansilory",
+  "version": "0.0.0",
+  "description": "Terminal styling made beautiful",
+  "license": "Apache-2.0",
+  "exports": "./src/index.ts",
+  "publish": {
+    "include": ["src", "README.md", "LICENSE"]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@tene/kolory",
+  "version": "0.0.0",
+  "description": "A lightweight, versatile JavaScript library for manipulating and exploring colors in web projects, supporting conversions, palette generation, and dynamic effects.",
+  "license": "Apache-2.0",
+  "exports": "./src/index.ts",
+  "publish": {
+    "include": ["src", "data", "README.md", "LICENSE"]
+  }
+}

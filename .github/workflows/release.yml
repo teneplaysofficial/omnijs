@@ -44,6 +44,9 @@ jobs:
       - name: Version bump
         run: pnpm changeset version
 
+      - name: Sync versions
+        run: node scripts/jsr.js --write
+
       - name: Commit version bump
         run: |
           git add .
@@ -52,6 +55,9 @@ jobs:
       - name: Setup npm auth for publish
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Publish jsr registry
+        run: node scripts/jsr.js --publish
 
       - name: Publish packages to npm
         run: pnpm changeset publish

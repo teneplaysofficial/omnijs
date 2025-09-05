@@ -1,0 +1,11 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@tene/git-log",
+  "version": "0.0.0",
+  "description": "Parse and format git commit history with ease supporting filters for tags dates authors and ranges",
+  "license": "Apache-2.0",
+  "exports": "./index.ts",
+  "publish": {
+    "include": ["index.ts", "README.md", "LICENSE"]
+  }
+}
