@@ -1,6 +1,6 @@
 export type Levels = 'log' | 'info' | 'warn' | 'error' | 'success' | 'debug';
 
-export type LogArgs = [...string[], LogOpts];
+export type LogArgs = (string | number | object | LogOpts)[];
 
 export type TimeStamp = 'utc' | 'local';
 
