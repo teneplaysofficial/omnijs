@@ -192,4 +192,4 @@ We welcome contributions to make Kolory even better! To contribute:
 
 ## License
 
-Kolory is licensed under the [Apache License 2.0](./LICENSE).
+Kolory is licensed under the [Apache License 2.0](../../LICENSE).

@@ -163,4 +163,4 @@ a1b2c3d;"Jane Doe";"2024-08-10T12:00:00+00:00";"feat: add new API endpoint"
 
 ## License
 
-Released under the [Apache License 2.0](./LICENSE).
+Released under the [Apache License 2.0](../../LICENSE).
