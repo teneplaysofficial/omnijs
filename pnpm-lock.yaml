@@ -64,6 +64,12 @@ importers:
 
   packages/kolory: {}
 
+  packages/sylog:
+    dependencies:
+      ansilory:
+        specifier: workspace:*
+        version: link:../ansilory
+
 packages:
 
   '@babel/runtime@7.28.3':

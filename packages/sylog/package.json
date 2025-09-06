@@ -1,0 +1,63 @@
+{
+  "name": "sylog",
+  "displayName": "Sylog",
+  "version": "0.0.0",
+  "description": "Sync system logs terminal clarity file durability",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teneplaysofficial/omnijs.git",
+    "directory": "packages/sylog"
+  },
+  "bugs": "https://github.com/teneplaysofficial/omnijs/issues",
+  "author": "Sriman <136729116+TenEplaysOfficial@users.noreply.github.com>",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/teneplaysofficial"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "sylog",
+    "system-log",
+    "logging",
+    "logger",
+    "terminal",
+    "file-log",
+    "node-logger",
+    "console-log",
+    "append-log",
+    "system-monitoring",
+    "debug",
+    "log",
+    "nodejs",
+    "server-logging",
+    "microservices"
+  ],
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "test": "",
+    "build": "tsup"
+  },
+  "dependencies": {
+    "ansilory": "workspace:*"
+  },
+  "devDependencies": {}
+}
