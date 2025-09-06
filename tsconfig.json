@@ -13,9 +13,6 @@
     "skipLibCheck": true,
     "noEmit": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["packages/*/index.ts", "packages/*/src/index.ts"]
-    }
+    "baseUrl": "."
   }
 }
