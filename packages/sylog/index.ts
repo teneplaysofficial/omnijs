@@ -192,3 +192,4 @@ export class Sylog {
  * ```
  */
 export const sylog = new Sylog();
+export default sylog;
