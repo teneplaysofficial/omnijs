@@ -1,5 +1,12 @@
 # ansilory
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [2fd5218]
+  - kolory@1.1.2
+
 ## 2.0.0
 
 ### Major Changes

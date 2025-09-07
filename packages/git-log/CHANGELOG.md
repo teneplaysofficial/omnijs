@@ -1,5 +1,11 @@
 # @tenedev/git-log
 
+## 1.0.1
+
+### Patch Changes
+
+- 2fd5218: Fixed README license link
+
 ## 1.0.0
 
 ### Major Changes
