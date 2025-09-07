@@ -7,12 +7,13 @@ const config: Config = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   roots: ['<rootDir>/packages/'],
   transform: {
-    '^.+\\.ts$': 'ts-jest',
-  },
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
+    '^.+\\.ts$': [
+      'ts-jest',
+      {
+        useESM: true,
+        isolatedModules: true,
+      },
+    ],
   },
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',

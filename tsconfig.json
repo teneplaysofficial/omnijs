@@ -12,6 +12,8 @@
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "isolatedModules": true,
+
     "resolveJsonModule": true,
     "baseUrl": "."
   }
