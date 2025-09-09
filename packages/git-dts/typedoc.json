@@ -1,0 +1,7 @@
+{
+  "entryPoints": ["index.d.ts"],
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "docs",
+  "name": "Git DTS",
+  "readme": "none"
+}

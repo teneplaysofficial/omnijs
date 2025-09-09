@@ -38,6 +38,9 @@ jobs:
       - name: Build the package
         run: pnpm build
 
+      - name: Build Docs
+        run: pnpm run doc
+
       - name: Setup Git user
         run: |
           git config user.name "github-actions[bot]"
