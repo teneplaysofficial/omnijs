@@ -31,12 +31,29 @@ export function variantsLook(
   ];
 }
 
+function toList(vals: string | string[]) {
+  return Array.isArray(vals) ? vals : [vals];
+}
+
+export async function getDataLook(name: string) {
+  const NPM_ENDPOINT = 'https://registry.npmjs.org/';
+
+  try {
+    const res = await fetch(NPM_ENDPOINT + name);
+    const data = await res.json();
+
+    return data;
+  } catch (err) {
+    console.error((err as Error).message);
+  }
+}
+
 /**
  * Check that a username or array of usernames is valid.
  *
  * @throws {TypeError} If the argument is not a string or an array of strings.
  */
-export function userLook(
+export async function userLook(
   /** A string or an array of strings representing npm usernames. */
   username: string | string[],
 ) {
@@ -45,6 +62,21 @@ export function userLook(
       `Invalid argument: expected a string or an array of strings, but received ${typeof username}`,
     );
   }
+
+  const data = toList(username);
+
+  await Promise.all(
+    data.map(async (n) => {
+      if (!/^[a-z0-9-]+$/.test(n)) {
+        console.error(
+          'Invalid npm username:',
+          n,
+          '\nUsernames must be lowercase and can only contain letters, numbers, and dashes (-)',
+        );
+        return;
+      }
+    }),
+  );
 }
 
 /**
@@ -52,7 +84,7 @@ export function userLook(
  *
  * @throws {TypeError} If the argument is not a string or an array of strings.
  */
-export function packageLook(
+export async function packageLook(
   /** A string or an array of strings representing npm package names. */
   name: string | string[],
 ) {
@@ -61,4 +93,6 @@ export function packageLook(
       `Invalid argument: expected a string or an array of strings, but received ${typeof name}`,
     );
   }
+
+  const data = toList(name);
 }
