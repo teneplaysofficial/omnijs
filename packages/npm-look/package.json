@@ -47,7 +47,10 @@
     }
   },
   "bin": {
-    "npm-look": "./dist/cli.cjs"
+    "npm-look": "./dist/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "scripts": {
     "build": "tsup"
