@@ -16,12 +16,13 @@
 
 ## Packages
 
-|  Package   |                                             Version                                             |                          NPM                          | Description                                         |
-| :--------: | :---------------------------------------------------------------------------------------------: | :---------------------------------------------------: | --------------------------------------------------- |
-| `ansilory` |    [![npm version](https://img.shields.io/npm/v/ansilory.svg?label=)](./packages/ansilory/)     |     [npm](https://www.npmjs.com/package/ansilory)     | ANSI color and style utilities for terminal output. |
-| `git-log`  | [![npm version](https://img.shields.io/npm/v/@tenedev/git-log.svg?label=)](./packages/git-log/) | [npm](https://www.npmjs.com/package/@tenedev/git-log) | Simplified Git log parsing and analysis.            |
-|  `kolory`  |      [![npm version](https://img.shields.io/npm/v/kolory.svg?label=)](./packages/kolory/)       |      [npm](https://www.npmjs.com/package/kolory)      | Advanced color manipulation for web and CLI.        |
-|  `sylog`   |       [![npm version](https://img.shields.io/npm/v/sylog.svg?label=)](./packages/sylog/)        |      [npm](https://www.npmjs.com/package/sylog)       | Sync system logs terminal clarity file durability.  |
+|  Package   |                                             Version                                             |                          NPM                          | Description                                                         |
+| :--------: | :---------------------------------------------------------------------------------------------: | :---------------------------------------------------: | ------------------------------------------------------------------- |
+| `ansilory` |    [![npm version](https://img.shields.io/npm/v/ansilory.svg?label=)](./packages/ansilory/)     |     [npm](https://www.npmjs.com/package/ansilory)     | ANSI color and style utilities for terminal output.                 |
+| `git-log`  | [![npm version](https://img.shields.io/npm/v/@tenedev/git-log.svg?label=)](./packages/git-log/) | [npm](https://www.npmjs.com/package/@tenedev/git-log) | Simplified Git log parsing and analysis.                            |
+|  `kolory`  |      [![npm version](https://img.shields.io/npm/v/kolory.svg?label=)](./packages/kolory/)       |      [npm](https://www.npmjs.com/package/kolory)      | Advanced color manipulation for web and CLI.                        |
+| `npm-look` |    [![npm version](https://img.shields.io/npm/v/npm-look.svg?label=)](./packages/npm-look/)     |     [npm](https://www.npmjs.com/package/npm-look)     | NPM name availability at a glance for packages accounts and scopes. |
+|  `sylog`   |       [![npm version](https://img.shields.io/npm/v/sylog.svg?label=)](./packages/sylog/)        |      [npm](https://www.npmjs.com/package/sylog)       | Sync system logs terminal clarity file durability.                  |
 
 > [!NOTE]
 > Explore individual package READMEs in the `packages/` directory for detailed usage instructions.

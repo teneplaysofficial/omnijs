@@ -67,6 +67,12 @@ importers:
 
   packages/kolory: {}
 
+  packages/npm-look:
+    dependencies:
+      ansilory:
+        specifier: workspace:*
+        version: link:../ansilory
+
   packages/sylog:
     dependencies:
       ansilory:
