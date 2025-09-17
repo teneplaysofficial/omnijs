@@ -11,7 +11,7 @@ export default defineConfig([
   {
     entry: ['cli.ts'],
     minify: true,
-    format: ['cjs'],
+    format: ['esm'],
     banner: { js: '#!/usr/bin/env node' },
   },
 ]);
