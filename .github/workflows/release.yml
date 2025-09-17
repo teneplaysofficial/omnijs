@@ -14,6 +14,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: call-ci
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_PAT }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
