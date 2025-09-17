@@ -3,18 +3,18 @@ import pkg from './package.json' with { type: 'json' };
 
 const args = process.argv.slice(2);
 
-if (args.includes('--help') || args.includes('-h') || args.length === 0) {
+if (!args.length || args.includes('--help') || args.includes('-h')) {
   console.log(`
-npm-look ${pkg.version} - Check npm package name availability at a glance
+npm-look ${pkg.version} - Check npm package name and username availability at a glance
 
 Usage:
-  npm-look [--package] <name>   Check npm packages (default)
-  npm-look --user <username>    Check npm user accounts
+  npm-look [--package] <name>   Check npm packages name availability
+  npm-look --user <username>    Check npm user name availability
 
 Options:
-  -p, --package    Check npm package names availability (default)
-  -u, --user       Check npm account username availability
-  -h, --help       Display this help message
+  -p, --package    Check npm package names
+  -u, --user       Check npm usernames
+  -h, --help       Show this help message
   -v, --version    Show version number
 
 Examples:
@@ -22,7 +22,7 @@ Examples:
   npm-look react vue vite @react/core
   npm-look --package react vue vite @react/core
   npm-look --user tj npm npmjs react
-  `);
+`);
   process.exit(0);
 }
 
@@ -31,34 +31,18 @@ if (args.includes('--version') || args.includes('-v')) {
   process.exit(0);
 }
 
-const user_names: string[] = [];
-const package_names: string[] = [];
-
+const users: string[] = [];
+const packages: string[] = [];
 let currentFlag: '-p' | '-u' = '-p';
 
 for (const arg of args) {
-  switch (arg) {
-    case '-p':
-    case '--package':
-      currentFlag = '-p';
-      break;
-
-    case '-u':
-    case '--user':
-      currentFlag = '-u';
-      break;
-
-    default:
-      if (!arg.startsWith('-')) {
-        (currentFlag === '-p' ? package_names : user_names).push(arg);
-      }
+  if (arg === '-p' || arg === '--package') currentFlag = '-p';
+  else if (arg === '-u' || arg === '--user') currentFlag = '-u';
+  else if (!arg.startsWith('-')) {
+    if (arg.startsWith('@')) packages.push(arg);
+    else (currentFlag === '-p' ? packages : users).push(arg);
   }
 }
 
-if (package_names.length > 0) {
-  await packageLook(package_names);
-}
-
-if (user_names.length > 0) {
-  await userLook(user_names);
-}
+if (packages.length) await packageLook(packages);
+if (users.length) await userLook(users);
