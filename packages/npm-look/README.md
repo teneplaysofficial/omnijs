@@ -6,8 +6,8 @@ _NPM name availability at a glance for packages, accounts, and scopes_
 
 </div>
 
-[![npm](https://img.shields.io/npm/v/npm-look.svg)](https://www.npmjs.com/package/npm-look)  
-[![npm downloads](https://img.shields.io/npm/dw/npm-look)](https://www.npmjs.com/package/npm-look)  
+[![npm](https://img.shields.io/npm/v/npm-look.svg)](https://www.npmjs.com/package/npm-look)
+[![npm downloads](https://img.shields.io/npm/dw/npm-look)](https://www.npmjs.com/package/npm-look)
 [![License](https://img.shields.io/npm/l/npm-look)](../../LICENSE)
 
 ## Overview
@@ -32,8 +32,8 @@ npm install npm-look
 ## CLI Usage
 
 ```bash
-npm-look [--package] <name>   Check npm package name availability
-npm-look --user <username>    Check npm username availability
+npx npm-look [--package] <name>   Check npm package name availability
+npx npm-look --user <username>    Check npm username availability
 ```
 
 ### Options
@@ -49,17 +49,17 @@ npm-look --user <username>    Check npm username availability
 
 ```bash
 # Check multiple packages
-npm-look react vue vite
+npx npm-look react vue vite
 
 # Check scoped packages
-npm-look @react/core
+npx npm-look @react/core
 
 # Explicit flags
-npm-look --package react vue vite @react/core
-npm-look --user tj npm npmjs react
+npx npm-look --package react vue vite @react/core
+npx npm-look --user tj npm npmjs react
 
 # Mixed usage
-npm-look react vite -p git django --user npm js -p vue next -u express
+npx npm-look react vite -p git django --user npm js -p vue next -u express
 ```
 
 ## Programmatic API
