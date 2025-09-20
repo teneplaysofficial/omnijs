@@ -53,7 +53,8 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "docs": "typedoc"
   },
   "dependencies": {
     "ansilory": "workspace:*"

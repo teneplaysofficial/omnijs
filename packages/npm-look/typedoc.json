@@ -1,0 +1,7 @@
+{
+  "entryPoints": ["index.ts"],
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "docs",
+  "name": "NPM Look",
+  "readme": "none"
+}
