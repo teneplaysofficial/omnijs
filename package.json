@@ -14,6 +14,7 @@
     "prepare": "husky",
     "test": "turbo run test",
     "build": "turbo run build",
+    "build:docs": "turbo run docs",
     "changeset": "changeset",
     "version": "changeset version",
     "publish": "changeset publish",
@@ -39,6 +40,8 @@
     "prettier": "^3.6.2",
     "tsup": "^8.5.0",
     "turbo": "^2.5.6",
+    "typedoc": "^0.28.13",
+    "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.41.0"
   }
