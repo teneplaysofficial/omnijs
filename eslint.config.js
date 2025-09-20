@@ -36,7 +36,7 @@ export default defineConfig([
     language: 'markdown/gfm',
     extends: ['markdown/recommended'],
     rules: {
-      'markdown/no-missing-label-refs': 'warn',
+      'markdown/no-missing-label-refs': 'off',
     },
   },
 ]);
