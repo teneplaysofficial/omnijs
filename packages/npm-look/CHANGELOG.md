@@ -1,5 +1,11 @@
 # npm-look
 
+## 1.0.1
+
+### Patch Changes
+
+- [#6](https://github.com/teneplaysofficial/omnijs/pull/6) [`04ac034`](https://github.com/teneplaysofficial/omnijs/commit/04ac03444ccd52f76fdd192ee216aa6eb7586dc0) Thanks [@teneplaysofficial](https://github.com/teneplaysofficial)! - polish docs
+
 ## 1.0.0
 
 ### Major Changes
