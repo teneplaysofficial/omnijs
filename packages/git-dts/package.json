@@ -1,0 +1,41 @@
+{
+  "name": "git-dts",
+  "displayName": "Git DTS",
+  "version": "0.0.0",
+  "description": "Reusable Git type definitions for TypeScript",
+  "keywords": [
+    "git",
+    "typescript",
+    "types",
+    "typings",
+    "commit",
+    "branch",
+    "tag",
+    "ref",
+    "semver",
+    "version-control",
+    "cli",
+    "scm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teneplaysofficial/omnijs.git",
+    "directory": "packages/git-dts"
+  },
+  "bugs": "https://github.com/teneplaysofficial/omnijs/issues",
+  "author": "Sriman <136729116+TenEplaysOfficial@users.noreply.github.com>",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/teneplaysofficial"
+  },
+  "license": "Apache-2.0",
+  "types": "index.d.ts",
+  "files": [
+    "types/*.d.ts"
+  ],
+  "scripts": {
+    "build": "node ./scripts/build-exports.mjs",
+    "docs": "typedoc"
+  },
+  "sideEffects": false
+}
