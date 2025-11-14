@@ -8,7 +8,7 @@
 
 > **packageLook**(`name`): `Promise`\<`void`\>
 
-Defined in: [index.ts:125](https://github.com/teneplaysofficial/omnijs/blob/5d6c198666bf629c638ca55149c7ac4c45dace8d/packages/npm-look/index.ts#L125)
+Defined in: [index.ts:125](https://github.com/teneplaysofficial/omnijs/blob/c0deafef83f88977ef2352fd8e8a4e3a12af2291/packages/npm-look/index.ts#L125)
 
 Check npm package name availability and conflicts.
 

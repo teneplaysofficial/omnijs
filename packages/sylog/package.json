@@ -1,7 +1,7 @@
 {
   "name": "sylog",
   "displayName": "Sylog",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Sync system logs terminal clarity file durability",
   "private": false,
   "repository": {
