@@ -78,7 +78,7 @@ export class Sylog {
       typeof arg === 'object' &&
       arg !== null &&
       !Array.isArray(arg) &&
-      ('sep' in arg || 'end' in arg)
+      ('sep' in arg || 'end' in arg || 'label' in arg)
     );
   }
 
@@ -172,7 +172,7 @@ export class Sylog {
     /**
      * A partial map of log levels and new label strings.
      */
-    levels: Pick<SylogOpts, 'levels'>,
+    levels: SylogOpts['levels'],
   ) {
     this.opts.levels = {
       ...this.opts.levels,
