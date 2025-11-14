@@ -17,6 +17,24 @@ import { Levels, LogArgs, LogOpts, SylogOpts } from './types.js';
  * logger.success('Task completed successfully');
  * logger.debug('Debug info', { foo: 'bar' });
  * ```
+ *
+ * @example
+ * ```ts
+ * import { sylog } from 'sylog';
+ *
+ * sylog.info('Starting server...');
+ * sylog.success('Server started successfully!');
+ *
+ * // Enable debug logs
+ * sylog.enableDebug();
+ * sylog.debug('Debug mode active', { label: 'Trace' });
+ *
+ * // Customize global labels at runtime
+ * sylog.setLevels({ info: 'ℹ️', success: '✅', error: '❌' });
+ *
+ * // Per-call label override
+ * sylog.info('Startup complete', { label: 'Information' });
+ * ```
  */
 export class Sylog {
   private opts: SylogOpts;
@@ -36,6 +54,7 @@ export class Sylog {
     showTimeStamp: false,
     timeStamp: 'utc',
     showLevels: true,
+    debug: false,
     levels: {
       log: null,
       info: 'INFO',
@@ -86,7 +105,7 @@ export class Sylog {
       )
       .join(logOpts.sep);
 
-    const levelText = this.opts.levels?.[levelKey];
+    const levelText = logOpts.label ?? this.opts.levels?.[levelKey];
     const coloredLevel = levelText
       ? this.LEVEL_COLORS[levelKey](`[${levelText}]`)
       : null;
@@ -102,6 +121,72 @@ export class Sylog {
         .join(' ') + logOpts.end;
 
     stream.write(parts);
+  }
+
+  /**
+   * Enables debug mode.
+   *
+   * When enabled, `debug()` logs will be printed to the console.
+   *
+   * @example
+   * ```ts
+   * sylog.enableDebug();
+   * sylog.debug('Verbose details');
+   * ```
+   */
+  enableDebug() {
+    this.opts.debug = true;
+  }
+
+  /**
+   * Disables debug mode.
+   *
+   * @example
+   * ```ts
+   * sylog.disableDebug();
+   * sylog.debug('This will not print');
+   * ```
+   */
+  disableDebug() {
+    this.opts.debug = false;
+  }
+
+  /**
+   * Returns whether debug mode is currently enabled.
+   *
+   * @returns `true` if debug mode is active.
+   */
+  isDebugEnabled() {
+    return !!this.opts.debug;
+  }
+
+  /**
+   * Updates log level labels globally at runtime.
+   *
+   * @example
+   * ```ts
+   * sylog.setLevels({ info: 'ℹ️ Info', success: '✅ Done' });
+   * ```
+   */
+  setLevels(
+    /**
+     * A partial map of log levels and new label strings.
+     */
+    levels: Pick<SylogOpts, 'levels'>,
+  ) {
+    this.opts.levels = {
+      ...this.opts.levels,
+      ...levels,
+    };
+  }
+
+  /**
+   * Returns the current log level label configuration.
+   *
+   * @returns A copy of the internal levels map.
+   */
+  getLevels() {
+    return { ...this.opts.levels };
   }
 
   /**
@@ -173,6 +258,7 @@ export class Sylog {
    * ```
    */
   debug(...args: LogArgs) {
+    if (!this.opts.debug) return;
     this.write(process.stdout, 'debug', ...args);
   }
 }
