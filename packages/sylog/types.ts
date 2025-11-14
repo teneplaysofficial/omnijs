@@ -34,6 +34,13 @@ export interface SylogOpts {
   showLevels?: boolean;
   /** Custom names for each level or null to hide */
   levels?: Partial<Record<Levels, string | null>>;
+
+  /**
+   * Enables debug output
+   *
+   * @default false
+   */
+  debug?: boolean;
 }
 
 /** Options for a log call */
@@ -50,4 +57,8 @@ export interface LogOpts {
    * @default "\n"
    */
   end?: string;
+  /**
+   * Override the default level label
+   */
+  label?: string;
 }
