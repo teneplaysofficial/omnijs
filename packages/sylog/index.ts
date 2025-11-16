@@ -46,7 +46,8 @@ export class Sylog {
     warn: (txt) => ansi.yellow.bold.apply(txt),
     error: (txt) => ansi.red.bold.apply(txt),
     success: (txt) => ansi.green.bold.apply(txt),
-    debug: (txt) => ansi.cyan.bold.apply(txt),
+    debug: (txt) => ansi.gray.bold.apply(txt),
+    dryrun: (txt) => ansi.magenta.bold.apply(txt),
   };
 
   /** Default {@link SylogOpts} options */
@@ -62,6 +63,7 @@ export class Sylog {
       error: 'ERROR',
       success: 'SUCCESS',
       debug: 'DEBUG',
+      dryrun: 'DRYRUN',
     },
   };
 
@@ -260,6 +262,18 @@ export class Sylog {
   debug(...args: LogArgs) {
     if (!this.opts.debug) return;
     this.write(process.stdout, 'debug', ...args);
+  }
+
+  /**
+   * Logs a dry-run message
+   *
+   * @example
+   * ```ts
+   * sylog.dryrun('Dry run mode enabled');
+   * ```
+   */
+  dryrun(...args: LogArgs) {
+    this.write(process.stdout, 'dryrun', ...args);
   }
 }
 

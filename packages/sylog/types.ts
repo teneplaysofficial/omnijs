@@ -1,5 +1,12 @@
 /** Log levels */
-export type Levels = 'log' | 'info' | 'warn' | 'error' | 'success' | 'debug';
+export type Levels =
+  | 'log'
+  | 'info'
+  | 'warn'
+  | 'error'
+  | 'success'
+  | 'debug'
+  | 'dryrun';
 
 /**
  * - Arguments passed to log methods.
