@@ -1,5 +1,18 @@
 # sylog
 
+## 2.1.0
+
+### Minor Changes
+
+- [#9](https://github.com/teneplaysofficial/omnijs/pull/9) [`6b78242`](https://github.com/teneplaysofficial/omnijs/commit/6b78242fe7e6411cfe2be4f9efce9c75acd59cbd) Thanks [@teneplaysofficial](https://github.com/teneplaysofficial)! - **Added**
+  - Introduced a new `dryrun` log level to indicate simulated operations.
+  - Added `sylog.dryrun()` helper method.
+  - Added default `DRYRUN` label and magenta styling for dry-run messages.
+
+  **Changed**
+  - Updated the `debug` log level color from cyan to gray for improved readability and reduced visual noise.
+  - Extended internal `Levels` type and color/label maps to support the new `dryrun` log level and updated `debug` color.
+
 ## 2.0.0
 
 ### Major Changes
