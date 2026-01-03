@@ -20,7 +20,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Validate PR title
-        uses: teneplaysofficial/sheriff@v3
+        uses: teneplaysofficial/sheriff@v4
 
   tests:
     name: Run Tests & Lint
