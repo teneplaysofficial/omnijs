@@ -7,7 +7,7 @@
   "author": "Sriman",
   "license": "Apache-2.0",
   "keywords": [],
-  "packageManager": "pnpm@10.27.0",
+  "packageManager": "pnpm@10.28.0",
   "type": "module",
   "main": "index.js",
   "scripts": {
