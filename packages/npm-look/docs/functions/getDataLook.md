@@ -8,7 +8,7 @@
 
 > **getDataLook**(`name`, `opts`): `Promise`\<`any`\>
 
-Defined in: [index.ts:44](https://github.com/teneplaysofficial/omnijs/blob/6b78242fe7e6411cfe2be4f9efce9c75acd59cbd/packages/npm-look/index.ts#L44)
+Defined in: [index.ts:44](https://github.com/teneplaysofficial/omnijs/blob/f95066233c343241272ef8ac150259c8268a9391/packages/npm-look/index.ts#L44)
 
 Fetch npm package or username data from the registry.
 

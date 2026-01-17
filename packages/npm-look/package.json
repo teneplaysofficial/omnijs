@@ -2,7 +2,7 @@
   "name": "npm-look",
   "displayName": "NPM Look",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "npm name availability at a glance for packages accounts and scopes",
   "license": "Apache-2.0",
   "keywords": [

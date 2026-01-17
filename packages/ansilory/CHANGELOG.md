@@ -1,5 +1,13 @@
 # ansilory
 
+## 2.0.2
+
+### Patch Changes
+
+- [#25](https://github.com/teneplaysofficial/omnijs/pull/25) [`2b9b18e`](https://github.com/teneplaysofficial/omnijs/commit/2b9b18e8e152bea0f41a1ee73325aab6e7a84e90) Thanks [@teneplaysofficial](https://github.com/teneplaysofficial)! - Add a `prepack` script to ensure the package is built before publishing.
+
+  This guarantees that the compiled `dist` files are always included in the published package, preventing missing entrypoints in strict package managers like pnpm and in CI environments.
+
 ## 2.0.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # sylog
 
+## 2.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`2b9b18e`](https://github.com/teneplaysofficial/omnijs/commit/2b9b18e8e152bea0f41a1ee73325aab6e7a84e90)]:
+  - ansilory@2.0.2
+
 ## 2.1.0
 
 ### Minor Changes
