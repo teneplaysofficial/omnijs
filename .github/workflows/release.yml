@@ -1,17 +1,25 @@
 name: Publish
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
   id-token: write
+  issues: write
+  pull-requests: write
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NPM_CONFIG_PROVENANCE: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -37,28 +45,13 @@ jobs:
       - name: Build the docs
         run: pnpm build:docs
 
-      - name: Setup Git user
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Version bump
-        run: pnpm changeset version
-
-      - name: Commit version bump
-        run: |
-          git add .
-          git diff --cached --quiet || git commit -m "Version Packages"
-
       - name: Setup npm auth for publish
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
-      - name: Publish packages to npm
-        run: pnpm changeset publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
-
-      - name: Push commits and tags
-        run: git push --follow-tags
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: pnpm changeset version
+          publish: pnpm changeset publish
