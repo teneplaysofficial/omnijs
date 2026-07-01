@@ -12,7 +12,6 @@
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "resolveJsonModule": true,
-    "baseUrl": "."
+    "resolveJsonModule": true
   }
 }
