@@ -173,6 +173,10 @@ function runCommand(
    */
   cmd: string,
   /**
+   * Arguments to pass to the command.
+   */
+  args: string[] = [],
+  /**
    * suppressErrorOutput If true, hide stderr messages
    *
    * @default false
@@ -181,6 +185,7 @@ function runCommand(
 ): string {
   try {
     return execSync(cmd, {
+      args,
       stdio: suppressErrorOutput
         ? ['pipe', 'pipe', 'ignore']
         : ['pipe', 'pipe', 'pipe'],
@@ -291,18 +296,28 @@ export default function getGitLog(
   const rawFields = options.fields?.filter((f) => f !== 'formattedDate');
   const format = rawFields?.map((f) => FieldData[f]).join(separator);
 
-  let cmd = `git log --pretty=format:"${format}"`;
+  const args: string[] = ['log', `--pretty=format:${format}`];
 
-  if (range && range !== 'all') cmd += ` ${range}`;
-  if (options.limit) cmd += ` -n ${options.limit}`;
-  if (options.since) cmd += ` --since="${options.since}"`;
-  if (options.until) cmd += ` --until="${options.until}"`;
-  if (options.author) cmd += ` --author="${options.author}"`;
+  if (range && range !== 'all') {
+    args.push(range);
+  }
+  if (options.limit) {
+    args.push('-n', String(options.limit));
+  }
+  if (options.since) {
+    args.push(`--since=${options.since}`);
+  }
+  if (options.until) {
+    args.push(`--until=${options.until}`);
+  }
+  if (options.author) {
+    args.push(`--author=${options.author}`);
+  }
   if (options.branch && options.branch !== 'all') {
-    cmd += ` ${options.branch}`;
+    args.push(options.branch);
   }
 
-  const raw = runCommand(cmd);
+  const raw = runCommand('git', args);
 
   if (!raw) return [];
 
